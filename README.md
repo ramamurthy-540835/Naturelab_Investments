@@ -8,6 +8,12 @@ Open `index.html` in a modern browser. To serve it locally, run `python -m http.
 
 The project is static HTML, CSS, and JavaScript. No build step, backend, external image dependency, or third-party analytics is included. Google Fonts are optional; system sans-serif fallbacks are specified.
 
+## Public launch
+
+The repository includes a GitHub Pages workflow at `.github/workflows/pages.yml`. In GitHub, open **Settings → Pages** and choose **GitHub Actions** as the source under **Build and deployment**. The workflow then deploys on pushes to `main` and can be checked under the Actions tab.
+
+The intended public URL is `https://ramamurthy-540835.github.io/Naturelab_Investments/` after the first successful deployment.
+
 ## Source and claim notes
 
 - Climate AI: source capability deck lists the workspace as live. The site labels this as a source-reported listing.
@@ -20,3 +26,9 @@ The project is static HTML, CSS, and JavaScript. No build step, backend, externa
 
 All project stages and estimates should be confirmed through diligence before external use. The page includes an investment disclaimer and is intended as an initial design build, not legal offering documentation.
 
+
+## Public launch
+
+The repository includes a GitHub Pages workflow at `.github/workflows/pages.yml`. In GitHub, open **Settings → Pages** and choose **GitHub Actions** as the source under **Build and deployment**. The workflow then deploys on pushes to `main` and can be checked under the Actions tab.
+
+The intended public URL is `https://ramamurthy-540835.github.io/Naturelab_Investments/` after the first successful deployment.
