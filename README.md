@@ -1,34 +1,25 @@
-# Nature Labs investment conversation website
+# Nature Labs investment website redesign
 
-An original, responsive one-page website concept for Nature Labs × NELTURE.ai. It uses an editorial investment-brand layout with custom CSS diagrams and restrained blue-green color, drawing on the compositional polish of the supplied Dribbble reference without reusing its copy or design assets.
+Responsive, static HTML/CSS/JavaScript redesign for Nature Labs × NELTURE.ai. It presents the investment thesis, four initiatives, a conceptual capability map, a separate materials-science capital pathway, governance questions and contact information.
 
 ## Preview locally
 
-Open `index.html` in a modern browser. To serve it locally, run `python -m http.server 8000` from this folder and open `http://localhost:8000`.
+Run `python -m http.server 8000` from this directory, then open `http://localhost:8000`.
 
-The project is static HTML, CSS, and JavaScript. No build step, backend, external image dependency, or third-party analytics is included. Google Fonts are optional; system sans-serif fallbacks are specified.
+## Feature branch
 
-## Public launch
+The redesign is isolated on `feature/world-class-website-redesign`. GitHub Pages production remains on `main`; this branch does not change the live URL or deployment workflow. Review the feature branch and merge it only when ready to publish.
 
-The repository includes a GitHub Pages workflow at `.github/workflows/pages.yml`. In GitHub, open **Settings → Pages** and choose **GitHub Actions** as the source under **Build and deployment**. The workflow then deploys on pushes to `main` and can be checked under the Actions tab.
+## Design and implementation
 
-The intended public URL is `https://ramamurthy-540835.github.io/Naturelab_Investments/` after the first successful deployment.
+- Enterprise blue and white design system with reusable CSS variables, editorial type hierarchy, restrained teal accent, consistent controls and responsive spacing.
+- Semantic page sections and keyboard-accessible project tabs for Climate AI, PRISM, GST Easy and Lunchbox.
+- Project-specific process flows and diligence questions, with source-reported status clearly distinguished from verified fact.
+- Responsive, editable SVG portfolio diagram with dashed arrows and explicit labels that relationships are conceptual rather than deployed integrations.
+- Mobile architecture sequence preserves node order and connecting lines rather than scaling down the desktop SVG.
+- Capital phases preserve proposal-only scope and supplied planning estimates; no ROI, itemized CapEx basis, or committed financing is implied.
+- IPCC/UN non-endorsement qualification and investment disclaimer retained.
+- No backend or API integrations are used by the existing static site. No backend functionality was changed.
 
-## Source and claim notes
+Google Fonts are requested when available; system sans-serif fallbacks keep the page usable when they are not.
 
-- Climate AI: source capability deck lists the workspace as live. The site labels this as a source-reported listing.
-- GST Easy: source capability deck calls the bills-and-vouchers experience a live demo. The site keeps that demo qualification.
-- Lunchbox: source capability deck lists it as live. The site labels this as source-reported and avoids claims about geography, customers, delivery volume, or revenue.
-- PRISM: source materials describe model routing, policy controls, human approvals, audit trails, and usage monitoring. The site presents these as described capabilities, not independently verified deployment status.
-- The independent IPCC-aligned research disclaimer is preserved. No IPCC or UN endorsement is claimed.
-- ₹4–6 crore and ₹15–25 crore are planning estimates for phases of a proposed materials-science facility pathway in supplied proposal materials. No itemized cost basis was supplied. These are not represented as a company-wide capital ask, committed funding, investor terms, or return forecasts.
-- The contact email is taken from the supplied Nature Labs presentation materials.
-
-All project stages and estimates should be confirmed through diligence before external use. The page includes an investment disclaimer and is intended as an initial design build, not legal offering documentation.
-
-
-## Public launch
-
-The repository includes a GitHub Pages workflow at `.github/workflows/pages.yml`. In GitHub, open **Settings → Pages** and choose **GitHub Actions** as the source under **Build and deployment**. The workflow then deploys on pushes to `main` and can be checked under the Actions tab.
-
-The intended public URL is `https://ramamurthy-540835.github.io/Naturelab_Investments/` after the first successful deployment.
