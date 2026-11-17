@@ -1,73 +1,97 @@
-const projects = {
+const projectData = {
   climate: {
-    kicker: 'RESEARCH INTELLIGENCE', status: 'SOURCE-REPORTED · LIVE LISTING', title: 'Climate AI',
-    desc: 'A climate evidence workspace concept for finding, screening and tracing research signals across hazards, impacts and adaptation.',
-    lens: 'Validate source coverage, review ownership, deployment scope and evidence quality.', visual: 'visual-climate',
+    category: 'RESEARCH INTELLIGENCE', status: 'SOURCE-REPORTED · LIVE LISTING', title: 'Climate AI',
+    description: 'A climate evidence workspace for finding, screening and tracing research across hazards, impacts and adaptation.',
+    lens: 'Confirm source coverage, review ownership, operating scope and evidence quality.',
+    steps: ['Scientific sources', 'Evidence extraction', 'Source validation', 'Human review', 'Evidence maps'],
   },
   prism: {
-    kicker: 'GOVERNED AI PLATFORM', status: 'PLATFORM CAPABILITY · SOURCE-DESCRIBED', title: 'PRISM',
-    desc: 'A control layer described around model routing, policy checks, named approvals, audit trails and usage monitoring for governed AI execution.',
-    lens: 'Review the implemented control points, integrations, audit data and operating boundaries.', visual: 'visual-prism',
+    category: 'GOVERNED AI PLATFORM', status: 'SOURCE-DESCRIBED CAPABILITY', title: 'PRISM AI',
+    description: 'A governed AI platform described around model routing, policy control, human approvals, audit trails and usage monitoring.',
+    lens: 'Review implemented controls, integrations, audit records and operating boundaries.',
+    steps: ['User / team', 'Identity & policy', 'Model routing', 'Human approval', 'Audit trail'],
   },
   gst: {
-    kicker: 'SME WORKFLOW', status: 'DEMONSTRATION · SOURCE-REPORTED', title: 'GST Easy',
-    desc: 'A bills-and-vouchers workflow concept for organizing invoice inputs and supporting GST-oriented business processes.',
-    lens: 'Confirm workflow coverage, supported formats, validation behavior and readiness for real filing contexts.', visual: 'visual-gst',
+    category: 'SME WORKFLOW', status: 'SOURCE-REPORTED DEMONSTRATION', title: 'GST Easy',
+    description: 'A bills-and-vouchers workflow concept for organizing business records and supporting GST-oriented processes.',
+    lens: 'Confirm workflow coverage, supported formats, validation behavior and readiness for filing contexts.',
+    steps: ['Bills & vouchers', 'Document capture', 'Record review', 'GST workflow', 'Business records'],
   },
   lunchbox: {
-    kicker: 'LOCAL COMMERCE', status: 'SOURCE-REPORTED · LIVE LISTING', title: 'Lunchbox',
-    desc: 'A local food and lunch experience within a broader set of community-facing digital services and commerce ideas.',
-    lens: 'Clarify the service footprint, live operating scope, fulfillment model and customer / partner responsibilities.', visual: 'visual-lunch',
+    category: 'LOCAL COMMERCE', status: 'SOURCE-REPORTED LIVE LISTING', title: 'Lunchbox',
+    description: 'A local food and lunch experience within a broader set of community-facing digital service ideas.',
+    lens: 'Clarify service footprint, operating scope, fulfillment model and customer / partner responsibilities.',
+    steps: ['Local discovery', 'Menu selection', 'Order request', 'Service fulfilment', 'Customer feedback'],
   },
 };
 
-function renderProject(key) {
-  const p = projects[key];
-  if (!p) return;
-  document.querySelectorAll('.project-tab').forEach((tab) => {
+const tabs = [...document.querySelectorAll('.project-tab')];
+const flow = document.getElementById('project-flow');
+
+function renderProject(key, focusPanel = false) {
+  const project = projectData[key];
+  if (!project) return;
+  tabs.forEach((tab) => {
     const selected = tab.dataset.project === key;
-    tab.classList.toggle('active', selected);
+    tab.classList.toggle('is-active', selected);
     tab.setAttribute('aria-selected', String(selected));
+    tab.tabIndex = selected ? 0 : -1;
   });
-  document.getElementById('project-kicker').textContent = p.kicker;
-  document.getElementById('project-status').textContent = p.status;
-  document.getElementById('project-title').textContent = p.title;
-  document.getElementById('project-desc').textContent = p.desc;
-  document.getElementById('project-lens').textContent = p.lens;
-  const art = document.getElementById('project-visual');
-  art.className = `panel-visual ${p.visual}`;
-  const graphics = {
-    climate: '<span class="climate-point p1"></span><span class="climate-point p2"></span><span class="climate-point p3"></span>',
-    prism: '<span class="prism-line l1"></span><span class="prism-line l2"></span><span class="prism-line l3"></span><span class="prism-node n1">USER / TEAM</span><span class="prism-node n2">POLICY + ROUTER</span><span class="prism-node n3">TOOLS + MODELS</span><span class="prism-node n4">HUMAN APPROVAL</span>',
-    gst: '<span class="gst-paper"></span><span class="gst-check">✓</span>',
-    lunchbox: '<span class="lunch-plate"></span><span class="lunch-label">LOCAL · FOOD · SERVICE</span>',
-  };
-  art.insertAdjacentHTML('beforeend', graphics[key]);
+  document.getElementById('project-panel').setAttribute('aria-labelledby', `tab-${key}`);
+  document.getElementById('project-category').textContent = project.category;
+  document.getElementById('project-status').innerHTML = `<i aria-hidden="true"></i>${project.status}`;
+  document.getElementById('project-title').textContent = project.title;
+  document.getElementById('project-description').textContent = project.description;
+  document.getElementById('project-lens').textContent = project.lens;
+  flow.setAttribute('aria-label', `${project.title} illustrative workflow`);
+  flow.replaceChildren(...project.steps.flatMap((step, index) => {
+    const item = document.createElement('div');
+    item.className = `flow-step${index === project.steps.length - 1 ? ' review-step' : ''}`;
+    const number = document.createElement('span');
+    number.className = 'flow-num';
+    number.textContent = String(index + 1).padStart(2, '0');
+    const name = document.createElement('span');
+    name.className = 'flow-name';
+    name.textContent = step;
+    item.append(number, name);
+    if (index === project.steps.length - 1) return [item];
+    const edge = document.createElement('span');
+    edge.className = 'flow-edge';
+    edge.setAttribute('aria-hidden', 'true');
+    edge.innerHTML = '<svg viewBox="0 0 32 12"><path d="M1 6h27M23 1l6 5-6 5"/></svg>';
+    return [item, edge];
+  }));
+  if (focusPanel) document.getElementById('project-panel').focus();
 }
 
-document.querySelectorAll('.project-tab').forEach((tab) => tab.addEventListener('click', () => renderProject(tab.dataset.project)));
+tabs.forEach((tab, index) => {
+  tab.addEventListener('click', () => renderProject(tab.dataset.project));
+  tab.addEventListener('keydown', (event) => {
+    let next = index;
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (index + 1) % tabs.length;
+    else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = (index - 1 + tabs.length) % tabs.length;
+    else if (event.key === 'Home') next = 0;
+    else if (event.key === 'End') next = tabs.length - 1;
+    else return;
+    event.preventDefault();
+    tabs[next].focus();
+    renderProject(tabs[next].dataset.project);
+  });
+});
+
 const menuToggle = document.querySelector('.menu-toggle');
 const nav = document.querySelector('.nav-links');
 menuToggle.addEventListener('click', () => {
-  const open = nav.classList.toggle('open');
+  const open = menuToggle.getAttribute('aria-expanded') !== 'true';
   menuToggle.setAttribute('aria-expanded', String(open));
   menuToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+  nav.classList.toggle('open', open);
 });
 nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
   nav.classList.remove('open');
   menuToggle.setAttribute('aria-expanded', 'false');
+  menuToggle.setAttribute('aria-label', 'Open navigation');
 }));
 
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('in-view');
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12 });
-document.querySelectorAll('.thesis-step,.project-panel,.phase,.governance-principles article').forEach((el) => {
-  el.classList.add('reveal');
-  revealObserver.observe(el);
-});
+renderProject('climate');
 
